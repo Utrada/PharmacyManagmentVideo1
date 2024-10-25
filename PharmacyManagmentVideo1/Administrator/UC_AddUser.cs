@@ -7,14 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 
 namespace PharmacyManagmentVideo1.Administrator
 {
     public partial class UC_AddUser : UserControl
     {
-
         function fn = new function();
         String query;
+        SqlConnection con = function.getConnection();
+
+        private CrystalDecisions.CrystalReports.Engine.ReportDocument
+        cr = new CrystalDecisions.CrystalReports.Engine.ReportDocument();
+        static string Crypath = "";
+
         public UC_AddUser()
         {
             InitializeComponent();
@@ -85,6 +93,23 @@ namespace PharmacyManagmentVideo1.Administrator
             {
                 pictureBox1.ImageLocation = @"C:\Users\91968\Downloads\C# Pharmacy Management System\no.png";
             }
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            SqlDataAdapter da = new SqlDataAdapter($"select * from users where userRole='{txtUserRole.Text}'",con);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            string xml = @"D:/C#.Net Project/PharmacyManagmentVideo1/PharmacyManagmentVideo1/data.xml";
+            ds.WriteXmlSchema(xml);
+
+            Crypath = @"D:/C#.Net Project/PharmacyManagmentVideo1/PharmacyManagmentVideo1/CrystalReport1.rpt";
+            cr.Load(Crypath);
+            cr.SetDataSource(ds);
+            cr.Database.Tables[0].SetDataSource(ds);
+            cr.Refresh();
+            crystalReportViewer1.ReportSource = cr;
+
         }
     }
 }

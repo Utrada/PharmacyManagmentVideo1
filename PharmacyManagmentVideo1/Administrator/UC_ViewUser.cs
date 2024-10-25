@@ -79,5 +79,10 @@ namespace PharmacyManagmentVideo1.Administrator
         {
             UC_ViewUser_Load(this, null);
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

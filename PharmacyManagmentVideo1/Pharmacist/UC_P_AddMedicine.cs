@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 
 namespace PharmacyManagmentVideo1.Pharmacist
 {
@@ -16,6 +19,11 @@ namespace PharmacyManagmentVideo1.Pharmacist
         function fn = new function();
         String query;
         DataSet ds;
+        SqlConnection con = function.getConnection();
+
+        private CrystalDecisions.CrystalReports.Engine.ReportDocument
+        cr = new CrystalDecisions.CrystalReports.Engine.ReportDocument();
+        static string Crypath = "";
 
         public UC_P_AddMedicine()
         {
@@ -72,6 +80,22 @@ namespace PharmacyManagmentVideo1.Pharmacist
             txtPricePerUnit.Clear();
             txtManufacturingDate.ResetText();
             txtExpireDate.ResetText();
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            SqlDataAdapter da = new SqlDataAdapter($"select * from medic", con);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            string xml = @"D:/C#.Net Project/PharmacyManagmentVideo1/PharmacyManagmentVideo1/data2.xml";
+            ds.WriteXmlSchema(xml);
+
+            Crypath = @"D:/C#.Net Project/PharmacyManagmentVideo1/PharmacyManagmentVideo1/CrystalReport2.rpt";
+            cr.Load(Crypath);
+            cr.SetDataSource(ds);
+            cr.Database.Tables[0].SetDataSource(ds);
+            cr.Refresh();
+            crystalReportViewer1.ReportSource = cr;
         }
     }
 }

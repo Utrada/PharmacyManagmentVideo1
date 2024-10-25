@@ -11,7 +11,7 @@ namespace PharmacyManagmentVideo1
 {
     class function
     {
-        protected SqlConnection getConnection()
+        static public SqlConnection getConnection()
         {
             SqlConnection con = new SqlConnection();
             con.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\C#.Net Project\PharmacyManagmentVideo1\PharmacyManagmentVideo1\Administrator\Pharmacy_db.mdf';Integrated Security=True";
